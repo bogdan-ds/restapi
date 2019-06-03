@@ -8,28 +8,28 @@ georep_api = Blueprint('georep_api', __name__)
 @georep_api.route("/<mastervol>/<slavehost>/<slavevol>", methods=["POST"])
 @auth
 def api_georep_create(mastervol, slavehost, slavevol):
-    data = request.get_json()
+    data = request.get_json() or {}
     return gluster_cmd_to_http_response(georep.create, mastervol, slavehost, slavevol, **data)
 
 
 @georep_api.route("/<mastervol>/<slavehost>/<slavevol>/start", methods=["POST"])
 @auth
 def api_georep_start(mastervol, slavehost, slavevol):
-    data = request.get_json()
+    data = request.get_json() or {}
     return gluster_cmd_to_http_response(georep.start, mastervol, slavehost, slavevol, **data)
 
 
 @georep_api.route("/<mastervol>/<slavehost>/<slavevol>/stop", methods=["POST"])
 @auth
 def api_georep_stop(mastervol, slavehost, slavevol):
-    data = request.get_json()
+    data = request.get_json() or {}
     return gluster_cmd_to_http_response(georep.stop, mastervol, slavehost, slavevol, **data)
 
 
 @georep_api.route("/<mastervol>/<slavehost>/<slavevol>", methods=["DELETE"])
 @auth
 def api_georep_delete(mastervol, slavehost, slavevol):
-    data = request.get_json()
+    data = request.get_json() or {}
     return gluster_cmd_to_http_response(georep.delete, mastervol, slavehost, slavevol, **data)
 
 
@@ -84,5 +84,15 @@ def api_checkpoint_del(mastervol, slaveuser, slavehost, slavevol):
     pass
 
 
-# Pause
-# Resume
+@georep_api.route("/<mastervol>/<slavehost>/<slavevol>/pause", methods=["POST"])
+@auth
+def api_georep_pause(mastervol, slavehost, slavevol):
+    data = request.get_json() or {}
+    return gluster_cmd_to_http_response(georep.pause, mastervol, slavehost, slavevol, **data)
+
+
+@georep_api.route("/<mastervol>/<slavehost>/<slavevol>/resume", methods=["POST"])
+@auth
+def api_georep_resume(mastervol, slavehost, slavevol):
+    data = request.get_json() or {}
+    return gluster_cmd_to_http_response(georep.resume, mastervol, slavehost, slavevol, **data)
